@@ -3,10 +3,15 @@ class ConversionNotPossible(Exception):
 
 def convert(fromUnit, toUnit, value):
     conversions = {
-        "Celsius": {"Fahrenheit": convertCelsiusToFahrenheit, "Kelvin": convertCelsiusToKelvin},
-        "Fahrenheit": {"Celsius": convertFahrenheitToCelsius, "Kelvin": convertFahrenheitToKelvin},
-        "Kelvin": {"Celsius": convertKelvinToCelsius, "Fahrenheit": convertKelvinToFahrenheit},
-        "Miles": {"Yards": lambda x: x * 1760, "Meters": lambda x: x * 1609.34},
-        "Yards": {"Miles": lambda x: x / 1760, "Meters": lambda x: x * 0.9144},
-        "Meters": {"Miles": lambda x: x / 1609.34, "Yards": lambda x: x / 0.9144},
+        "Celsius": {"Kelvin": lambda c: c + 273.15, "Fahrenheit": lambda c: (c * 9/5) + 32},
+        "Fahrenheit": {"Celsius": lambda f: (f - 32) * 5/9, "Kelvin": lambda f: (f - 32) * 5/9 + 273.15},
+        "Kelvin": {"Celsius": lambda k: k - 273.15, "Fahrenheit": lambda k: (k - 273.15) * 9/5 + 32}
     }
+    
+    if fromUnit == toUnit:
+        return value  # Identity conversion
+
+    try:
+        return round(conversions[fromUnit][toUnit](value), 2)
+    except KeyError:
+        raise ConversionNotPossible(f"Cannot convert {fromUnit} to {toUnit}")
