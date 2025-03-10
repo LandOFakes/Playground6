@@ -36,6 +36,15 @@ class TestConversions(unittest.TestCase):
         self.assertEqual(convert("Celsius", "Kelvin", 0), 273.15)
         self.assertEqual(convert("Fahrenheit", "Celsius", 32), 0)
         self.assertEqual(convert("Kelvin", "Fahrenheit", 373.15), 212)
+    def test_distance_conversion(self):
+        self.assertEqual(convert("Miles", "Yards", 1), 1760)
+        self.assertEqual(convert("Yards", "Meters", 1), 0.91)
+        self.assertEqual(convert("Meters", "Miles", 1609.34), 1)
+
+    def test_identity_conversion(self):
+        self.assertEqual(convert("Miles", "Miles", 5), 5)
+        self.assertEqual(convert("Meters", "Meters", 100), 100)
+
 
     def test_invalid_conversion(self):
         with self.assertRaises(ConversionNotPossible):
