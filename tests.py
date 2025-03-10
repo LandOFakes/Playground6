@@ -42,7 +42,7 @@ class TestConversions(unittest.TestCase):
             convert("Celsius", "Miles", 100)  # Should raise error
 
 # Run the tests
-if __name__ == '__main__':
-    unittest.main()
+    if __name__ == '__main__':
+        unittest.main()
 
 # test push
